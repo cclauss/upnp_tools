@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# see: http://omz-forums.appspot.com/pythonista/post/6417706764992512#post-5212093439541248
+
 import socket
 
 SSDP_DICT = { 'ip_address' : '239.255.255.250',
