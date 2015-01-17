@@ -35,5 +35,6 @@ def upnp_discover(match_str='', timeout_secs=5):
         pass
     return responses
 
-upnp_endpoints = upnp_discover()  # 'ST: urn:Belkin:service:basicevent:1')
-print('Done.')
+if __name__ == '__main__':
+    upnp_endpoints = upnp_discover()  # 'ST: urn:Belkin:service:basicevent:1')
+    print('Done.')
