@@ -22,10 +22,18 @@ sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
 sock.sendto(ssdp_request, (SSDP_DICT['ip_address'], SSDP_DICT['port']))
 print(sock.getsockname())
 
-sock.settimeout(5)# set 5 sec timeout
-try:
-    while True:
-        print(sock.recv(1000))
-except socket.timeout as e:
-    pass
+def upnp_discover(match_str='', timeout_secs=5):
+    sock.settimeout(timeout_secs)
+    responses = []
+    try:
+        while True:
+            response = sock.recv(1000)
+            if match_str in response:
+                print(response)
+                responses.append(response)
+    except socket.timeout as e:
+        pass
+    return responses
+
+upnp_endpoints = upnp_discover()  # 'ST: urn:Belkin:service:basicevent:1')
 print('Done.')
