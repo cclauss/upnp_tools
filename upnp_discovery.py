@@ -15,7 +15,7 @@ MAN: "ssdp:discover"
 MX: {mx}
 ST: {st}
 
-'''.replace('\n', '\r\n').format(**SSDP_DICT)
+'''.replace('\n', '\r\n').format(**SSDP_DICT) + '\r\n'
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
