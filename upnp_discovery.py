@@ -9,17 +9,16 @@ SSDP_DICT = { 'ip_address' : '239.255.255.250',
               'mx'         : 10,
               'st'         : 'ssdp:all' }
 
-ssdp_request = '''M-SEARCH * HTTP/1.1
+ssdp_request = ('''M-SEARCH * HTTP/1.1
 HOST: {ip_address}:{port}
 MAN: "ssdp:discover"
 MX: {mx}
 ST: {st}
-
-'''.replace('\n', '\r\n').format(**SSDP_DICT) + '\r\n'
+'''.replace('\n', '\r\n').format(**SSDP_DICT) + '\r\n').encode('utf-8')
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-sock.sendto(ssdp_request, (SSDP_DICT['ip_address'], SSDP_DICT['port']))
+sock.sendto(ssdp_request, (SSDP_DICT['ip_address'].encode('utf-8'), SSDP_DICT['port']))
 print(sock.getsockname())
 
 def upnp_discover(match_str='', timeout_secs=5):
@@ -27,7 +26,7 @@ def upnp_discover(match_str='', timeout_secs=5):
     responses = []
     try:
         while True:
-            response = sock.recv(1000)
+            response = sock.recv(1000).decode('utf-8')
             if match_str in response:
                 print(response)
                 responses.append(response)
